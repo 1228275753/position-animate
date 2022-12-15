@@ -1,0 +1,65 @@
+body {
+  background-color: #dfdfdf;
+}
+.no-deal {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 500px;
+  height: 400px;
+  border: 1px solid #999999;
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background-color: #cc9004;
+}
+
+.already {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 500px;
+  height: 300px;
+  border: 1px solid #999999;
+  position: fixed;
+  bottom: 200px;
+  left: 20px;
+  background-color: #58b412;
+  overflow: auto;
+}
+
+.n-box {
+  margin: 10px;
+}
+.moni-box {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+.box-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: #EEEEEE;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* 滚动条整体部分，可以设置宽度啥的 */
+.already::-webkit-scrollbar {
+  width: 5px;
+  display: none;
+}
+/* 外层轨道 */
+.already::-webkit-scrollbar-track {
+  background-color: #b6b6b6;
+}
+/* 滚动的滑块 */
+.already::-webkit-scrollbar-thumb {
+  background-color: #6b6b6b;
+}
+.already:hover::-webkit-scrollbar {
+  display: block;
+}

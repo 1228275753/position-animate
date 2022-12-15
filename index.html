@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="test.css"/>
+    <script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		<title>点名动画demo</title>
+	</head>
+	<body>
+    <div id="app">
+      <div style="text-align: center;font-size: 20px;font-weight: bold;">
+        <span style="margin-right: 20px;color: #58b412;">已点名</span>
+        <span style="color: #cc9004;">未点名</span>
+      </div>
+      <div class="already">
+        <div class="moni-box" v-for="(item, index) in allNum" :key="index">
+          <div class="box-item" v-if="yesList[index]">{{yesList[index].name}}</div>
+        </div>
+      </div>
+      <div class="no-deal">
+        <div class="box-item n-box" v-for="(item,index) in noList" :key="index"
+        @click="changeStatus(item, index)">{{item.name}}</div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      let app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            allNum: 16,// 总点名数量
+            // 未点名名单
+            noList: [
+              {name: "老王", status: 0},
+              {name: "李四", status: 0},
+              {name: "赵三", status: 0},
+              {name: "铁柱", status: 0},
+              {name: "小刚", status: 0},
+              {name: "啊发发", status: 0},
+              {name: "饭饭", status: 0},
+              {name: "虾虾", status: 0},
+              {name: "抖音", status: 0},
+              {name: "淘宝", status: 0},
+              {name: "飞车", status: 0},
+              {name: "联盟", status: 0},
+            ],
+            yesNum: 0,// 已点数量
+            // 已点名名单
+            yesList: [
+              {name: "化腾", status: 1},
+              {name: "马云", status: 1},
+              {name: "建林", status: 1},
+              {name: "思聪", status: 1},
+            ]
+          }
+        },
+        mounted() {
+          this.initPeopleNum()
+        },
+        methods: {
+          // 初始化已点人员数量
+          initPeopleNum() {
+            this.yesNum = this.yesList.length
+          },
+          // 状态点名改变
+          changeStatus(item, index) {
+            let dom = document.getElementsByClassName("n-box")[index]
+            let domRect = dom.getBoundingClientRect()
+            let xSite0 = domRect.left + "px"
+            let ySite0 = domRect.top + "px"
+            
+            item.status = 1
+            this.yesNum += 1
+            
+            let moveBox = document.createElement("div")
+            moveBox.innerHTML = `
+              <div class="box-item active${this.yesNum}">${item.name}</div>
+            `
+            document.body.appendChild(moveBox)
+            this.noList = this.filterData(this.noList, 0)
+            
+            let site = this.yesNum - 1
+            let style = document.createElement("style")
+            
+            let moniBox = document.getElementsByClassName("moni-box")[site]
+            let moniRect = moniBox.getBoundingClientRect()
+            let xSite = moniRect.left + "px"
+            let ySite = moniRect.top + "px"
+            let moveCss = `
+              .active${this.yesNum} {
+                position: fixed;
+                animation: moveitem${this.yesNum} 2s;
+              }
+              @keyframes moveitem${this.yesNum} {
+                0% {
+                  left: ${xSite0};
+                  top: ${ySite0};
+                }
+                90% {
+                  left: ${xSite};
+                  top: ${ySite};
+                }
+                100% {
+                  left: ${xSite};
+                  top: ${ySite};
+                }
+              }
+            `
+            style.append(moveCss)
+            document.head.appendChild(style)
+            setTimeout(() => {
+              this.yesList.push(item)
+              document.head.removeChild(style)
+              document.body.removeChild(moveBox)
+            }, 1800)
+          },
+          filterData(list,status) {
+            return list.filter(item => item.status === status)
+          }
+        }
+      })
+      
+    </script>
+	</body>
+</html>
+
